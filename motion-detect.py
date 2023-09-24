@@ -39,7 +39,7 @@ def main():
     
     
     systemd_notify = sdnotify.SystemdNotifier()
-    # TODO: unify the PIR observation and the Ultrasonic Observation
+    # DONE: unified the PIR observation and the Ultrasonic Observation
     #       consider using the Observer Pattern: https://en.wikipedia.org/wiki/Observer_pattern
     #ContinuousPIRObservation(pir_pin = 23)
     

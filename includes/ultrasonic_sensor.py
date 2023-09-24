@@ -52,7 +52,7 @@ class ContinuousUSObservation(threading.Thread):
         self.initialize()
         while self.keep_running:
             self.single_observation()
-            # TODO(some day...): put the activation logic into a separate thread
+            # TODO(some day...): put the activation logic into a separate thread (that is done)
             #       the activation step could be locking a mutex
             #       so reactivations while already being activated
             #       would be avoided, as the mutex would already be locked
@@ -82,11 +82,12 @@ class ContinuousUSObservation(threading.Thread):
 #                    self.activate_state = 1
 #                    do_activation()
 #
-#    # TODO (some day...): have the stop of the activation phase in
+#    # Idea: have the stop of the activation phase in
 #    #     a separate thread, such that we don't have to check each iteration
 #    #     for whether our time already elapsed, but instead have the thread
 #    #     sleep for the duration of activation phase, whereupon of course the
-#    #     activation phase is being ended 
+#    #     activation phase is being ended
+#    #   We still check the standby controller's 'check_standby_elligibility()' on each iteration of our main loop
 #    # DONE: before ending the activation phase, we might seriously
 #    #     want to check whether an immediate reactivation is probably coming.
 #    #     (i.e. it's ugly if we go into deactivated state, yet are being woken up
