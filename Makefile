@@ -19,8 +19,10 @@ python_dependencies:
 dependencies: i2c_dependencies python_dependencies
 
 
+UID := $(shell id -u)
 install: 
 	sudo systemctl stop motion-detect.service || true
 	sudo systemctl disable motion-detect.service || true
-	sudo systemctl enable $(PWD)/motion-detect.service
+	sed "s:/home/pi/git-pirat:${CURDIR}:; s/1000/${UID}/;" motion-detect.service
+	sudo systemctl enable ${CURDIR}/motion-detect.service
 	sudo systemctl start motion-detect.service
