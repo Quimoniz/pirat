@@ -1,0 +1,20 @@
+[Unit]
+Description=Motion detection client script
+After=systemd-user-sessions.service
+
+
+[Service]
+Type=notify
+WorkingDirectory=/home/pi/pirat
+ExecStartPre=/usr/bin/sleep 4
+ExecStart=/usr/bin/python3 threaded-ultrasonic-checking-v2.py
+#TimeoutSec=20s
+KillSignal=SIGINT
+User=pi
+Group=audio
+Environment="XDG_RUNTIME_DIR=/run/user/1000"
+Environment="PULSE_RUNTIME_PATH=/run/user/1000/pulse/"
+
+
+[Install]
+WantedBy=multi-user.target
