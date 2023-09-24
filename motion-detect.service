@@ -5,9 +5,9 @@ After=systemd-user-sessions.service
 
 [Service]
 Type=notify
-WorkingDirectory=/home/pi/pirat
+WorkingDirectory=/home/pi/git-pirat
 ExecStartPre=/usr/bin/sleep 4
-ExecStart=/usr/bin/python3 threaded-ultrasonic-checking-v2.py
+ExecStart=/usr/bin/python3 motion-detect.py
 #TimeoutSec=20s
 KillSignal=SIGINT
 User=pi
