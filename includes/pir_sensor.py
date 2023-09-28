@@ -63,7 +63,9 @@ class ContinuousPIRObservation(threading.Thread):
     def subscribe_to_activity(self, foreignObject, foreignCallback):
         self.activity_callbacks.append((foreignObject, foreignCallback))
     def get_reading(self):
-        nice_pir_state = "False 🕶️"
+        # "False 🕶️"
+        nice_pir_state = "nope"
         if self.pir_state:
-            nice_pir_state = "True 👀"
+            # "True 👀"
+            nice_pir_state = " yup"
         return "PIR: {}".format(nice_pir_state)
