@@ -238,7 +238,7 @@ class ContinuousUSObservation(threading.Thread):
     def get_reading(self):
         text = "Usonic: "
         if self.distance_deque[-1]:
-             text = "{}{:.1f} cm".format(text, self.distance_deque[-1])
+             text = "{}{:3.1f} cm".format(text, self.distance_deque[-1])
         else:
              text = text + "---"
         return text
