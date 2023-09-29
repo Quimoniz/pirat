@@ -50,7 +50,7 @@ class ActionThread (threading.Thread):
         time.sleep(0.5)
         self._run_cmd("xset",
            {'DISPLAY': ':0'},
-           'xset s default')
+           'xset s 300')
         time.sleep(1)
         #  bash -c "XDG_RUNTIME_DIR=/run/user/1000 paplay win95_startup.wav"
         # Note: Pulseaudio has 100 % volume being 65568

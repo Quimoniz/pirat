@@ -18,6 +18,7 @@ from includes.pir_sensor import ContinuousPIRObservation
 from includes.ultrasonic_sensor import ContinuousUSObservation
 from includes.standby_controller import StandbyController
 
+#import datetime
 
 
 
@@ -55,20 +56,27 @@ def main():
     systemd_notify.notify("READY=1")
     
     display.start()
+    counter = 1
     while global_keep_running:
         try:
+            #print("MAIN: A")
             systemd_notify.notify("STATUS=ping...")
+            #print("MAIN: B {}".format(datetime.datetime.now()))
             controller.check_standby_elligibility()
+            #print("MAIN: C {}".format(datetime.datetime.now()))
             display.store_reading(controller.get_reading())
+            #print("MAIN: D {}".format(datetime.datetime.now()))
     #        print(".", end="")
     #        sys.stdout.flush()
+#            if 0 == (counter % 30):
+#                print("Just checked standby elligibility")
             time.sleep(1)
         except KeyboardInterrupt:
             global_keep_running = False
             #TODO:
             #observer.keep_running = False
             print("\nCaught KeyboardInterrupt, unlocking the GPIO pins...")
-    
+        counter += 1 
     controller.finalize()       
     display.finalize()
     

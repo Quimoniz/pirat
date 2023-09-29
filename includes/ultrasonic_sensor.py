@@ -110,8 +110,12 @@ class ContinuousUSObservation(threading.Thread):
             if False != current_distance:
                 for cur_callback in self.activity_callbacks:
                     call_obj, call_func, callCondition = cur_callback
-                    if current_distance < callCondition:
-                        call_func("us", current_distance)
+                    try:
+                        if  current_distance < callCondition \
+                        and self.distance_deque[-1] < callCondition:
+                            call_func("us", current_distance)
+                    except:
+                        pass
    
 # TODO (some day...): maybe we want to log the distance values, e.g. to a grafana database?
 #                print("{} cm".format(round(current_distance * 10) / 10))
@@ -236,7 +240,7 @@ class ContinuousUSObservation(threading.Thread):
         self.activity_callbacks.append((foreignObject, foreignCallback, relevantMinDistance))
 
     def get_reading(self):
-        text = "Usonic: "
+        text = " US: "
         if self.distance_deque[-1]:
              text = "{}{:3.1f} cm".format(text, self.distance_deque[-1])
         else:

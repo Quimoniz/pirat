@@ -39,6 +39,7 @@ class ContinuousPIRObservation(threading.Thread):
         while self.keep_running:
             self.pir_state = GPIO.input(self.pir_pin)
             if self.pir_state:
+                print("PIR")
                 for cur_entry in self.activity_callbacks:
                     call_obj, call_func = cur_entry
                     call_func("pir")
