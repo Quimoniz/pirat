@@ -4,6 +4,7 @@ import RPi.GPIO as GPIO
 import board
 import time
 import os
+import signal
 #import sys
 #import subprocess
 
@@ -20,7 +21,19 @@ from includes.standby_controller import StandbyController
 
 #import datetime
 
+global_got_sig_usr1 = False
+global_got_sig_usr2 = False
 
+def handle_sig_usr1(signum, frame):
+    global_got_sig_usr1 = True
+
+def handle_sig_usr2(signum, frame):
+    global_got_sig_usr2 = True
+
+
+
+signal.signal(signal.SIGUSR1, handle_sig_usr1)
+signal.signal(signal.SIGUSR2, handle_sig_usr2)
 
 
 def main():
@@ -61,6 +74,14 @@ def main():
         try:
             #print("MAIN: A")
             systemd_notify.notify("STATUS=ping...")
+            if global_got_sig_usr1:
+                print("Doing manual activation")
+                controller.defer_activation()
+                global_got_sig_usr1 = False
+            if global_got_sig_usr2:
+                print("Doing manual deactivation")
+                controller.defer_deactivation()
+                global_got_sig_usr2 = False
             #print("MAIN: B {}".format(datetime.datetime.now()))
             controller.check_standby_elligibility()
             #print("MAIN: C {}".format(datetime.datetime.now()))
@@ -76,7 +97,7 @@ def main():
             #TODO:
             #observer.keep_running = False
             print("\nCaught KeyboardInterrupt, unlocking the GPIO pins...")
-        counter += 1 
+        counter += 1
     controller.finalize()       
     display.finalize()
     
